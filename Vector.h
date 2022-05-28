@@ -145,7 +145,7 @@ public:
     Iterator begin();
     Iterator end();
 
-	void mine_new_massive(int number);
+    void new_memory(int number);
 private:
     Value* _data = nullptr;
     size_t _size = 0;

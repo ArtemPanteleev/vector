@@ -15,16 +15,11 @@ Vector::Vector(const Value* rawArray, const size_t size, float coef): _size(size
 }
 
 //=================================
-Vector::Vector(const Vector& other): _size(other._size), _capacity(other._size), _multiplicativeCoef(other._multiplicativeCoef)
+Vector::Vector(const Vector& other): _size(other._size), _capacity(other._size), _multiplicativeCoef(other._multiplicativeCoef), _data(other._data)
 {
 	if(&other == this)
 	{
 		return;
-	}
-	_data = new Value[other._size];
-	for(int i = 0; i < _size; i++)
-	{
-		_data[i] = other._data[i];
 	}
 }
 
@@ -92,17 +87,17 @@ const Value& Vector::operator[](size_t idx) const
 }
 
 //=================================
-Vector::~Vector()
+Vector::~Vector(): _size(0), _capacity(0), _multiplicativeCoef(2.0f)
 {
-	delete[] _data; 
-	_size = 0; 
-	_capacity = 0; 
-	_multiplicativeCoef = 2.0f; 
+	delete[] _data;
 }
 
 //=================================
+//функции
+//=================================
 //моя функция для сокращения кода
-void Vector::mine_new_massive(int number)
+//=================================
+void Vector::new_memory(int number)
 {
 	if(_capacity <= _size - number)
 	{
@@ -125,7 +120,7 @@ void Vector::mine_new_massive(int number)
 }
 
 //=================================
-//функции
+//функции, которые надо реализовать
 //=================================
 void Vector::pushBack(const Value& value)
 {
@@ -166,7 +161,7 @@ void Vector::insert(const Value* values, size_t size, size_t pos){
 	int count = 1;
 	for(size_t i = _size - 1; i >= size; i--)
 	{
-	    _data[i] = _data[_size - size - count];
+		_data[i] = _data[_size - size - count];
 		count++;
 	}
 	for(size_t i = 0; i < size; i++)
@@ -183,7 +178,7 @@ void Vector::insert(const Vector& vector, size_t pos)
 	int count = 1;
 	for(size_t i = _size - 1; i > pos; i--)
 	{
-	    _data[i] = _data[_size - vector._size - count];
+		_data[i] = _data[_size - vector._size - count];
 		count++;
 	}
 	for(size_t i = 0; i < vector._size; i++)
@@ -233,16 +228,16 @@ void Vector::erase(size_t pos, size_t count)
 	{
 		if (count + pos > _size)
 		{
-        _size = _size - (_size - pos);
-    	}
+       			_size = _size - (_size - pos);
+    		}
 		else
 		{
-        	for (size_t i = 0; i < _size  - count + 1; i++)
+        		for (size_t i = 0; i < _size  - count + 1; i++)
 			{
-            	_data[i + pos] = _data[i + pos + count];
-        	}
-		_size -= count;
-    	}
+            			_data[i + pos] = _data[i + pos + count];
+        		}
+			_size -= count;
+    		}
 	}
 }
 

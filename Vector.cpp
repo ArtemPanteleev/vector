@@ -5,10 +5,9 @@ using namespace std;
 
 //=================================
 //констуркторы, деструкторы, операторы класса Vector
-Vector::Vector(const Value* rawArray, const size_t size, float coef): 
-_size(size),
-_capacity(size), 
-_multiplicativeCoef(coef)
+Vector::Vector(const Value* rawArray, const size_t size, float coef): _size(size),
+								      _capacity(size), 
+								      _multiplicativeCoef(coef)
 {
 	_data = new Value[_size];
 	for(int i = 0; i < size; i++)
@@ -18,10 +17,9 @@ _multiplicativeCoef(coef)
 }
 
 //=================================
-Vector::Vector(const Vector& other): 
-_size(other._size),
-_capacity(other._size),
-_multiplicativeCoef(other._multiplicativeCoef)
+Vector::Vector(const Vector& other): _size(other._size),
+				     _capacity(other._size),
+				     _multiplicativeCoef(other._multiplicativeCoef)
 {
 	if(&other == this)
 	{
@@ -183,8 +181,8 @@ void Vector::insert(const Value* values, size_t size, size_t pos){
 	int count = 1;
 	for(size_t i = _size - 1; i >= size; i--)
 	{
-		int PosToSwap = _size - size - count;
-	    	_data[i] = _data[PosToSwap];
+		int posToSwap = _size - size - count;
+	    	_data[i] = _data[posToSwap];
 		count++;
 	}
 	
@@ -203,8 +201,8 @@ void Vector::insert(const Vector& vector, size_t pos)
 	int count = 1;
 	for(size_t i = _size - 1; i > pos; i--)
 	{
-		int PosToSwap = _size - vector._size - count;
-	    	_data[i] = _data[PosToSwap];
+		int posToSwap = _size - vector._size - count;
+	    	_data[i] = _data[posToSwap];
 		count++;
 	}
 	
@@ -262,8 +260,8 @@ void Vector::erase(size_t pos, size_t count)
 		{
         	for (size_t i = 0; i < _size  - count + 1; i++)
 		{
-			int PosToSwap = i + pos + count;
-            		_data[i + pos] = _data[PosToSwap];
+			int posToSwap = i + pos + count;
+            		_data[i + pos] = _data[posToSwap];
         	}
 			
 		_size -= count;

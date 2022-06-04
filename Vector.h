@@ -145,10 +145,11 @@ public:
     Iterator begin();
     Iterator end();
 
-    void new_memory(int number);
+    void allocate_new_memory(int number);
 private:
     Value* _data = nullptr;
     size_t _size = 0;
     size_t _capacity = 0;
     float _multiplicativeCoef = 2.0f;
 };
+

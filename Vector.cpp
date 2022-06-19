@@ -374,7 +374,7 @@ Iterator Iterator::operator++()
 Iterator Iterator::operator++(int counter)
 {
 	Value* m =_ptr;
-	while(_ptr != counter)
+	for(int i = 0; i < counter; i++)
 	{
 		++_ptr;
 	}

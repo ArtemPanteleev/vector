@@ -56,6 +56,7 @@ Vector& Vector::operator=(const Vector& other)
 //=================================
 Vector::Vector(Vector&& other) noexcept
 {
+	delete[] _data;
 	_size = other._size;
 	_capacity = other._capacity; 
 	_multiplicativeCoef = other._multiplicativeCoef; 
@@ -74,6 +75,7 @@ Vector& Vector::operator=(Vector&& other) noexcept
 		return *this;
 	}
 	
+	delete[] _data;
 	_size = other._size;
 	_capacity = other._capacity; 
 	_multiplicativeCoef = other._multiplicativeCoef; 
@@ -314,7 +316,8 @@ void Vector::reserve(size_t capacity)
 			{
 				new_mass[i] = _data[i];
 			}
-
+			
+			delete[] _data;
 			_data = new_mass;
 		}	
 	}

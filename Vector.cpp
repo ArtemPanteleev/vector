@@ -42,9 +42,9 @@ Vector& Vector::operator=(const Vector& other)
 	
 	delete[] _data;
 	_size = other._size;
-	_capacity = other._size;
+	_capacity = other._capacity;
 	_multiplicativeCoef = other._multiplicativeCoef;
-	_data = new Value[other._size];
+	_data = new Value[other._capacity];
 	for(int i = 0; i < _size; i++)
 	{
 		_data[i] = other._data[i];

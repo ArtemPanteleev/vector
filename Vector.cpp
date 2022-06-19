@@ -373,12 +373,11 @@ Iterator Iterator::operator++()
 //=================================
 Iterator Iterator::operator++(int counter)
 {
-	Value* m =_ptr;
 	for(int i = 0; i < counter; i++)
 	{
 		++_ptr;
 	}
-	return Iterator(m);
+	return *this;
 }
 
 //=================================

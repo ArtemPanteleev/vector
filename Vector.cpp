@@ -74,15 +74,14 @@ Vector& Vector::operator=(Vector&& other) noexcept
 		return *this;
 	}
 	
-	delete[] _data;
 	_size = other._size;
-	_capacity = other._capacity;
-	_multiplicativeCoef = other._multiplicativeCoef;
-	_data = new Value[other._size];
-	for(int i = 0; i < _size; i++)
-	{
-		_data[i] = other._data[i];
-	}
+	_capacity = other._capacity; 
+	_multiplicativeCoef = other._multiplicativeCoef; 
+	_data = other._data;
+	other._data = nullptr;
+	other._size = 0;
+	other._capacity = 0;
+	other._multiplicativeCoef = 2.0f;
 	
 	return *this;
 }
@@ -110,7 +109,7 @@ Vector::~Vector()
 
 //=================================
 //моя функция для сокращения кода
-void Vector::allocate_new_memory(int number)
+void Vector::allocateNewMemory(int number)
 {
 	if(_capacity <= _size - number)
 	{
@@ -138,7 +137,7 @@ void Vector::allocate_new_memory(int number)
 void Vector::pushBack(const Value& value)
 {
 	_size += 1;
-	allocate_new_memory(1);
+	allocateNewMemory(1);
 	
 	_data[_size - 1] = value;
 }
@@ -147,7 +146,7 @@ void Vector::pushBack(const Value& value)
 void Vector::pushFront(const Value& value)
 {
 	_size += 1;
-	allocate_new_memory(1);
+	allocateNewMemory(1);
 	
 	for(size_t i = _size - 1; i > 0; i--)
 	{
@@ -161,7 +160,7 @@ void Vector::pushFront(const Value& value)
 void Vector::insert(const Value& value, size_t pos)
 {
 	_size += 1;
-	allocate_new_memory(1);
+	allocateNewMemory(1);
 	
 	for(size_t i = _size - 1; i > pos; i--)
 	{
@@ -175,13 +174,13 @@ void Vector::insert(const Value& value, size_t pos)
 void Vector::insert(const Value* values, size_t size, size_t pos){
 	
 	_size += size;
-	allocate_new_memory(size);
+	allocateNewMemory(size);
 	
 	int count = 1;
 	for(size_t i = _size - 1; i >= size; i--)
 	{
-		int posToSwap = _size - size - count;
-	    	_data[i] = _data[posToSwap];
+		int PosToSwap = _size - size - count;
+	    _data[i] = _data[PosToSwap];
 		count++;
 	}
 	
@@ -194,21 +193,7 @@ void Vector::insert(const Value* values, size_t size, size_t pos){
 //=================================
 void Vector::insert(const Vector& vector, size_t pos)
 {
-	_size += vector._size;
-	allocate_new_memory(vector._size);
-	
-	int count = 1;
-	for(size_t i = _size - 1; i > pos; i--)
-	{
-		int posToSwap = _size - vector._size - count;
-	    	_data[i] = _data[posToSwap];
-		count++;
-	}
-	
-	for(size_t i = 0; i < vector._size; i++)
-	{
-		_data[pos + i] = vector._data[i];
-	}
+	insert(vector._data, vector._size, pos);
 }
 
 //=================================
@@ -253,18 +238,17 @@ void Vector::erase(size_t pos, size_t count)
 	{
 		if (count + pos > _size)
 		{
-        		_size = _size - (_size - pos);
-    		}
+        _size = _size - (_size - pos);
+    	}
 		else
 		{
         	for (size_t i = 0; i < _size  - count + 1; i++)
-		{
-			int posToSwap = i + pos + count;
-            		_data[i + pos] = _data[posToSwap];
+			{
+				int PosToSwap = i + pos + count;
+            	_data[i + pos] = _data[PosToSwap];
         	}
-			
 		_size -= count;
-    		}
+    	}
 	}
 }
 
@@ -289,7 +273,7 @@ size_t Vector::capacity() const
 //=================================
 double Vector::loadFactor() const
 {
-    	return double(_size) / double(_capacity);
+    return static_cast<double>(_size) / _capacity;
 }
 
 //=================================
@@ -325,16 +309,13 @@ void Vector::reserve(size_t capacity)
 		if(capacity > _capacity)
 		{
 			_capacity = capacity;
-			Value* new_mass = new Value[_size];
+			Value* new_mass = new Value[_capacity];
 			for(size_t i = 0; i < _size; i++)
 			{
 				new_mass[i] = _data[i];
 			}
-			_data = new Value[_capacity];
-			for(size_t i = 0; i < _size; i++)
-			{
-				_data[i] = new_mass[i];
-			}
+
+			_data = new_mass;
 		}	
 	}
 }
@@ -351,11 +332,7 @@ void Vector::shrinkToFit()
 	}
 	
 	delete[] _data;
-	_data = new Value[_capacity];
-	for(size_t i = 0; i < _size; i++)
-	{
-		_data[i] = new_mass[i];
-	}
+	_data = new_mass;
 }
 
 //=================================

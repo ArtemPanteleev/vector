@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 /// type of vector item
 /// TODO: change to template

@@ -371,10 +371,10 @@ Iterator Iterator::operator++()
 }
 
 //=================================
-Iterator Iterator::operator++(int)
+Iterator Iterator::operator++(int counter)
 {
 	Value* m =_ptr;
-	while(_ptr != int)
+	while(_ptr != counter)
 	{
 		++_ptr;
 	}
